@@ -20,26 +20,30 @@ def sample_sphere(r):
     costheta = np.random.uniform(-1, 1)
     theta = np.arccos(costheta)
     phi = np.random.uniform(0, 2*np.pi)
-    return r, theta, phi
+    return np.array([r, theta, phi])
 
-def convert_spherical_cartesian(r, theta, phi):
+def convert_spherical_cartesian(spherical_coords):
     """
     Convert from spherical coordinates r, theta, phi
     where theta is the polar angle and phi is the 
     azimuthal angle to Cartesian coordinates x, y, z
     """
+    r = spherical_coords[0]
+    theta = spherical_coords[1]
+    phi = spherical_coords[2]
+
     x = r * np.cos(phi) * np.sin(theta)
     y = r * np.sin(theta) * np.sin(phi)
     z = r * np.cos(theta)
     
-    return x, y, z
+    return np.array([x, y, z])
 
 def sample_sphere_cartesian(r):
-    r, theta, phi = sample_sphere(r)
-    x, y, z = convert_spherical_cartesian(r, theta, phi)
-    return x, y, z
+    sph_coords = sample_sphere(r)
+    cartesian_coords = convert_spherical_cartesian(sph_coords)
+    return cartesian_coords
 
 if __name__ == "__main__":
-    x, y, z = sample_sphere_cartesian(0.9)
-    print(x, y, z)
+    coords = sample_sphere_cartesian(0.9)
+    print(coords)
 
